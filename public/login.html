@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediZen - Healthcare Professional Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2C5282;
+            --secondary-color: #4299E1;
+            --background-color: #F7FAFC;
+            --surface-color: #FFFFFF;
+            --error-color: #E53E3E;
+            --text-primary: #2D3748;
+            --text-secondary: #4A5568;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --google-color: #4285F4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .login-sidebar {
+            width: 40%;
+            background-color: var(--primary-color);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+        }
+
+        .login-sidebar h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-sidebar p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .login-main {
+            width: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-container {
+            background-color: var(--surface-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .error-message {
+            background-color: #FFF5F5;
+            color: var(--error-color);
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid #ffffff3d;
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .divider span {
+            padding: 0 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: white;
+            color: var(--text-primary);
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .google-btn:hover {
+            background-color: #f8f9fa;
+        }
+
+        .google-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .login-sidebar {
+                width: 100%;
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .login-main {
+                width: 100%;
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-sidebar">
+        <h2>MediZen</h2>
+        <p>Welcome to the future of medical assistance. Access your AI-powered healthcare platform designed specifically for medical professionals.</p>
+    </div>
+    <main class="login-main">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Welcome Back</h1>
+                <p>Please sign in to continue</p>
+            </div>
+            <div id="error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span></span>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email-input">Email Address</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email-input" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password-input">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password-input" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                <button type="submit" id="login-btn" class="login-btn">
+                    <div class="loading"></div>
+                    <span>Sign In</span>
+                </button>
+            </form>
+            <div class="divider">
+                <span>OR</span>
+            </div>
+            <button id="google-login-btn" class="google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" class="google-icon">
+                Sign in with Google
+            </button>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCnblJ_nlnnixuUIeoZVctrweNtjPG8Onc",
+            authDomain: "intellijmind.firebaseapp.com",
+            projectId: "intellijmind",
+            storageBucket: "intellijmind.firebasestorage.app",
+            messagingSenderId: "752745735408",
+            appId: "1:752745735408:web:3e8f0da17e10b6b9928e35",
+            measurementId: "G-57DG433939"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const googleProvider = new GoogleAuthProvider();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = '/chat.html';
+            }
+        });
+
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
+        const googleLoginBtn = document.getElementById('google-login-btn');
+        const errorMessage = document.getElementById('error-message');
+        const loadingSpinner = document.querySelector('.loading');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email-input').value;
+            const password = document.getElementById('password-input').value;
+
+            loginBtn.disabled = true;
+            loadingSpinner.style.display = 'inline-block';
+            errorMessage.style.display = 'none';
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log('Logged in as:', userCredential.user);
+                window.location.href = '/chat.html';
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = getErrorMessage(error.code);
+                errorMessage.style.display = 'block';
+                loginBtn.disabled = false;
+                loadingSpinner.style.display = 'none';
+            }
+        });
+
+        googleLoginBtn.addEventListener('click', async () => {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                console.log('Logged in with Google as:', result.user);
+                window.location.href = '/chat.html';
+            } catch (error) {
+                console.error('Google login error:', error);
+                errorMessage.textContent = 'Failed to sign in with Google. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        function getErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/wrong-password':
+                    return 'Incorrect password. Please try again.';
+                case 'auth/user-not-found':
+                    return 'No account found with this email.';
+                case 'auth/invalid-email':
+                    return 'Invalid email address.';
+                case 'auth/too-many-requests':
+                    return 'Too many failed attempts. Please try again later.';
+                default:
+                    return 'An error occurred. Please try again.';
+            }
+        }
+    </script>
+</body>
+</html>
