@@ -1,15 +1,23 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "framework": "node",
+  "functions": {
+    "api/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
     }
-  ],
+  },
   "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
     {
       "src": "/(.*)",
-      "dest": "server.js"
+      "dest": "/index.html"
     }
   ]
 }

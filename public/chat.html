@@ -20,12 +20,15 @@
             --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             --shadow-2: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
             --radius: 8px;
+            --transition: all 0.2s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
@@ -33,12 +36,14 @@
             background: var(--background);
             color: var(--text-primary);
             line-height: 1.5;
+            overflow: hidden;
         }
 
         .header {
             display: flex;
             align-items: center;
-            padding: 8px 16px;
+            justify-content: space-between;
+            padding: 12px 24px;
             background: var(--background);
             border-bottom: 1px solid var(--border);
             position: fixed;
@@ -46,6 +51,8 @@
             left: 0;
             right: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .logo {
@@ -56,10 +63,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none;
         }
 
         .logo i {
             color: var(--google-blue);
+            transition: var(--transition);
+        }
+
+        .logo:hover i {
+            transform: scale(1.1);
         }
 
         .main-container {
@@ -78,6 +91,20 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
         }
 
         .message {
@@ -85,6 +112,13 @@
             padding: 12px 16px;
             border-radius: var(--radius);
             animation: messageSlide 0.3s ease;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .message:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-1);
         }
 
         .message.user {
@@ -102,10 +136,22 @@
             border-radius: 18px 18px 18px 4px;
         }
 
+        .message.bot::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234285f4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>') center/contain no-repeat;
+            opacity: 0.7;
+        }
+
         @keyframes messageSlide {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -114,33 +160,26 @@
         }
 
         .input-container {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            margin: 16px;
-            padding: 8px;
             display: flex;
-            align-items: center;
-            box-shadow: var(--shadow-1);
-            transition: box-shadow 0.2s ease;
-        }
-
-        .input-container:focus-within {
-            box-shadow: var(--shadow-2);
-            border-color: var(--google-blue);
+            gap: 12px;
+            padding: 16px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-top: 16px;
+            position: relative;
         }
 
         .message-input {
             flex: 1;
             border: none;
-            background: none;
-            padding: 8px 16px;
-            font-size: 16px;
+            background: transparent;
             font-family: 'Roboto', sans-serif;
+            font-size: 16px;
             color: var(--text-primary);
             resize: none;
             max-height: 120px;
-            min-height: 24px;
+            padding: 8px;
         }
 
         .message-input:focus {
@@ -148,126 +187,157 @@
         }
 
         .send-button {
-            background: none;
+            background: var(--google-blue);
+            color: white;
             border: none;
-            padding: 8px;
+            border-radius: var(--radius);
+            padding: 8px 16px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            border-radius: 50%;
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s ease;
+            gap: 8px;
         }
 
         .send-button:hover {
-            background: rgba(66, 133, 244, 0.1);
+            background: #3367d6;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-1);
+        }
+
+        .send-button:active {
+            transform: translateY(0);
         }
 
         .send-button i {
-            color: var(--google-blue);
-            font-size: 24px;
+            font-size: 18px;
         }
 
-        .loading {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            color: var(--text-secondary);
+        .send-button.loading {
+            background: var(--text-secondary);
+            pointer-events: none;
         }
 
-        .loading.show {
-            display: flex;
-        }
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 16px;
+            }
 
-        .loading .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--google-blue);
-            border-top-color: transparent;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: spin 1s linear infinite;
-        }
+            .message {
+                max-width: 85%;
+            }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            .header {
+                padding: 8px 16px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="logo">
+        <a href="/" class="logo">
             <i class="material-icons">medical_services</i>
             MediZen
-        </div>
+        </a>
+        <button class="send-button" onclick="location.href='/logout'" style="background: var(--surface); color: var(--text-primary); border: 1px solid var(--border);">
+            <i class="material-icons">logout</i>
+            Sign Out
+        </button>
     </header>
-    <div class="main-container">
-        <div class="chat-container" id="messagesContainer">
-            <!-- Messages will be added here -->
+
+    <main class="main-container">
+        <div class="chat-container" id="chatContainer">
+            <div class="message bot">
+                Hello! I'm MediZen, your AI medical assistant. How can I help you today?
+            </div>
         </div>
-        <div id="loadingIndicator" class="loading">
-            <div class="spinner"></div>
-            <span>Processing your request...</span>
-        </div>
+
         <div class="input-container">
             <textarea 
-                id="messageInput" 
                 class="message-input" 
-                placeholder="Type your medical query here..."
+                id="messageInput" 
+                placeholder="Type your message here..."
                 rows="1"
-                onInput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'"
+                maxlength="1000"
             ></textarea>
-            <button id="sendButton" class="send-button">
+            <button class="send-button" id="sendButton">
                 <i class="material-icons">send</i>
+                Send
             </button>
         </div>
-    </div>
+    </main>
 
     <script>
-        const messagesContainer = document.getElementById('messagesContainer');
+        const chatContainer = document.getElementById('chatContainer');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
-        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
 
         function addMessage(content, type) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            messageDiv.textContent = content;
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            message.textContent = content;
+            chatContainer.appendChild(message);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Remove old messages if there are too many (performance optimization)
+            while (chatContainer.children.length > 100) {
+                chatContainer.removeChild(chatContainer.firstChild);
+            }
         }
 
         async function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
+            const content = messageInput.value.trim();
+            if (!content) return;
 
+            // Disable input and button while sending
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            sendButton.classList.add('loading');
+
+            // Add user message
+            addMessage(content, 'user');
             messageInput.value = '';
             messageInput.style.height = 'auto';
-            addMessage(message, 'user');
-            loadingIndicator.classList.add('show');
-            sendButton.disabled = true;
 
             try {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ message })
+                    body: JSON.stringify({ message: content })
                 });
 
+                if (!response.ok) throw new Error('Network response was not ok');
+
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.message || 'Error');
                 addMessage(data.response, 'bot');
             } catch (error) {
-                addMessage('Error: ' + error.message, 'bot');
+                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                console.error('Error:', error);
             } finally {
-                loadingIndicator.classList.remove('show');
+                // Re-enable input and button
+                messageInput.disabled = false;
                 sendButton.disabled = false;
+                sendButton.classList.remove('loading');
+                messageInput.focus();
             }
         }
 
+        // Event listeners
         sendButton.addEventListener('click', sendMessage);
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -275,6 +345,19 @@
                 sendMessage();
             }
         });
+
+        // Keep chat window scrolled to bottom
+        const observer = new MutationObserver(() => {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        });
+
+        observer.observe(chatContainer, {
+            childList: true,
+            subtree: true
+        });
+
+        // Prevent form submission on enter
+        document.addEventListener('submit', (e) => e.preventDefault());
     </script>
 </body>
 </html>
