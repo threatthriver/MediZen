@@ -102,18 +102,19 @@ async function processQueue() {
             return;
         }
 
-        res.status(error.status || 500).json({
-            success: false,
-            error: error.name || 'Error',
-            message: error.message || 'An unexpected error occurred',
-            retryAfter: error.message?.includes('rate limit') ? '1 hour' : undefined
+        res.status(500).json({ 
+            success: false, 
+            error: 'Internal Server Error', 
+            message: error.message 
         });
     } finally {
         isProcessing = false;
-        // Process next request if any
-        setTimeout(processQueue, 1000); // Small delay between requests
+        processQueue(); // Continue processing the queue
     }
 }
+
+// Start processing the queue
+processQueue();
 
 // Routes
 app.get('/', (req, res) => {
