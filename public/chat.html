@@ -89,18 +89,58 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.user {
+        .message.user-message {
             background: var(--primary);
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 0.25rem;
         }
 
-        .message.bot {
+        .message.ai-message {
             background: var(--surface);
             border: 1px solid var(--border);
-            align-self: flex-start;
-            border-bottom-left-radius: 0.25rem;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+            margin-left: 0;
+        }
+
+        .message.ai-message pre {
+            background: #f6f8fa;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 0.5rem 0;
+        }
+
+        .message.ai-message code {
+            font-family: monospace;
+            background: #f6f8fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        .message.ai-message ul, .message.ai-message ol {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message.ai-message p {
+            margin-bottom: 0.5rem;
+        }
+
+        .message.ai-message h1, .message.ai-message h2, .message.ai-message h3 {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message.ai-message blockquote {
+            border-left: 4px solid var(--border);
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+            color: var(--text-secondary);
         }
 
         .input-container {
@@ -178,7 +218,7 @@
 
     <main class="chat-container">
         <div class="messages" id="messages">
-            <div class="message bot">
+            <div class="message ai-message">
                 Hello! I'm MediZen, your AI medical assistant. How can I help you today?
             </div>
         </div>
@@ -198,7 +238,7 @@
     </main>
 
     <script>
-        const messagesContainer = document.getElementById('messages');
+        const chatMessages = document.getElementById('messages');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
 
@@ -208,45 +248,49 @@
             this.style.height = Math.min(this.scrollHeight, 150) + 'px';
         });
 
-        function addMessage(content, type) {
-            const message = document.createElement('div');
-            message.className = `message ${type}`;
-            message.textContent = content;
-            messagesContainer.appendChild(message);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        async function addMessage(content, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            if (type === 'user') {
+                messageDiv.textContent = content;
+            } else {
+                // For AI messages, use the HTML content that includes markdown formatting
+                messageDiv.innerHTML = content;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         async function sendMessage() {
-            const content = messageInput.value.trim();
-            if (!content) return;
+            const message = messageInput.value.trim();
+            if (!message) return;
 
-            // Disable input while sending
-            messageInput.disabled = true;
-            sendButton.disabled = true;
-
-            // Add user message
-            addMessage(content, 'user');
+            // Clear input and add user message
             messageInput.value = '';
-            messageInput.style.height = 'auto';
+            addMessage(message, 'user');
 
             try {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: content })
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ message })
                 });
 
-                if (!response.ok) throw new Error('Network response was not ok');
-
                 const data = await response.json();
-                addMessage(data.response, 'bot');
+
+                if (data.success) {
+                    // Use the HTML version of the response that includes markdown formatting
+                    addMessage(data.html, 'ai');
+                } else {
+                    addMessage('Error: ' + data.message, 'error');
+                }
             } catch (error) {
-                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
-                console.error('Error:', error);
-            } finally {
-                messageInput.disabled = false;
-                sendButton.disabled = false;
-                messageInput.focus();
+                addMessage('Error: Could not send message', 'error');
             }
         }
 

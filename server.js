@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const { isAuthenticated } = require('./middleware/auth');
 require('dotenv').config();
+const marked = require('marked');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -64,7 +65,7 @@ async function processQueue() {
     if (isProcessing || requestQueue.length === 0) return;
     
     isProcessing = true;
-    const { req, res, message } = requestQueue.shift();
+    const { req, res, message, processResponse } = requestQueue.shift();
     
     try {
         const response = await cerebras.chat.completions.create({
@@ -87,17 +88,16 @@ async function processQueue() {
             throw new Error('No response generated from AI service');
         }
 
-        res.json({ 
-            success: true, 
-            response: aiResponse 
-        });
+        const result = await processResponse(aiResponse);
+
+        res.json(result);
 
     } catch (error) {
         console.error('Error in chat API:', error);
         
         if (error.message?.includes('rate limit')) {
             // Add request back to queue if it's a rate limit error
-            requestQueue.unshift({ req, res, message });
+            requestQueue.unshift({ req, res, message, processResponse });
             setTimeout(processQueue, 60 * 1000); // Retry after 1 minute
             return;
         }
@@ -230,7 +230,20 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
     }
 
     // Add request to queue
-    requestQueue.push({ req, res, message });
+    requestQueue.push({ 
+        req, 
+        res, 
+        message,
+        processResponse: async (aiResponse) => {
+            // Convert markdown to HTML
+            const htmlResponse = marked.parse(aiResponse);
+            return {
+                success: true,
+                message: aiResponse,
+                html: htmlResponse
+            };
+        }
+    });
     processQueue();
 });
 
