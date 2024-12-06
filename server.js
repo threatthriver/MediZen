@@ -8,7 +8,17 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const { isAuthenticated } = require('./middleware/auth');
 require('dotenv').config();
-const marked = require('marked');
+
+// Initialize Markdown parser with fallback
+let marked;
+try {
+    marked = require('marked');
+} catch (error) {
+    console.warn('Marked package not available, using plain text');
+    marked = {
+        parse: (text) => text // Fallback to plain text if marked is not available
+    };
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -238,13 +248,22 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
         res, 
         message,
         processResponse: async (aiResponse) => {
-            // Convert markdown to HTML
-            const htmlResponse = marked.parse(aiResponse);
-            return {
-                success: true,
-                message: aiResponse,
-                html: htmlResponse
-            };
+            try {
+                // Convert markdown to HTML with fallback
+                const htmlResponse = marked.parse(aiResponse);
+                return {
+                    success: true,
+                    message: aiResponse,
+                    html: htmlResponse
+                };
+            } catch (error) {
+                console.error('Error parsing markdown:', error);
+                return {
+                    success: true,
+                    message: aiResponse,
+                    html: aiResponse // Fallback to plain text
+                };
+            }
         }
     });
     processQueue();
