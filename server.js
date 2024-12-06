@@ -96,9 +96,12 @@ async function processQueue() {
         console.error('Error in chat API:', error);
         
         if (error.message?.includes('rate limit')) {
-            // Add request back to queue if it's a rate limit error
-            requestQueue.unshift({ req, res, message, processResponse });
-            setTimeout(processQueue, 60 * 1000); // Retry after 1 minute
+            res.status(429).json({
+                success: false,
+                error: 'Rate Limit',
+                message: 'Service is currently busy. Please try again in a few minutes.',
+                retryAfter: '60'
+            });
             return;
         }
 
