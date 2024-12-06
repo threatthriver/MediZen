@@ -4,136 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediZen - AI Medical Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-light: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --secondary: #10b981;
+            --primary: #4285f4;
             --surface: #ffffff;
             --background: #f8fafc;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --text-tertiary: #64748b;
-            --border: #e2e8f0;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --text: #202124;
+            --text-secondary: #5f6368;
+            --border: #e0e0e0;
+            --shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Google Sans', sans-serif;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--background);
-            color: var(--text-primary);
+            color: var(--text);
             line-height: 1.5;
         }
 
-        header {
-            background: var(--surface);
-            padding: 1rem;
+        .header {
             position: fixed;
-            width: 100%;
             top: 0;
-            z-index: 100;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            padding: 1rem 2rem;
             border-bottom: 1px solid var(--border);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0 1rem;
+            justify-content: space-between;
+            z-index: 100;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 1.25rem;
         }
 
-        .logo .material-icons-round {
-            font-size: 1.75rem;
+        .logo i {
+            color: var(--primary);
         }
 
-        nav {
+        .nav-links {
             display: flex;
-            gap: 1rem;
+            gap: 2rem;
             align-items: center;
         }
 
-        nav a {
+        .nav-links a {
             text-decoration: none;
-            color: var(--text-secondary);
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-md);
+            color: var(--text);
             font-weight: 500;
-            transition: all 0.2s ease;
+            transition: color 0.2s;
         }
 
-        nav a:hover {
+        .nav-links a:hover {
             color: var(--primary);
-            background: #f1f5f9;
         }
 
-        nav a.cta {
+        .cta-button {
             background: var(--primary);
             color: white;
             padding: 0.75rem 1.5rem;
-            border-radius: var(--radius-lg);
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
         }
 
-        nav a.cta:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+        .cta-button:hover {
+            background: #3b78e7;
         }
 
         .hero {
-            background: linear-gradient(to right, #2563eb, #1d4ed8);
-            color: white;
-            padding: 8rem 1rem 6rem;
+            padding: 8rem 2rem 4rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
         }
 
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
         .hero h1 {
             font-size: 3.5rem;
-            font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.2;
         }
@@ -144,230 +114,91 @@
             opacity: 0.9;
         }
 
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: white;
-            color: var(--primary);
-            padding: 1rem 2rem;
-            border-radius: var(--radius-lg);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        .search-container {
-            max-width: 700px;
-            margin: -2rem auto 0;
-            padding: 0 1rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .search-bar {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-        }
-
-        .search-bar input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 1rem;
-            color: var(--text-primary);
-            font-family: inherit;
-        }
-
-        .search-bar .material-icons-round {
-            color: var(--text-tertiary);
-            cursor: pointer;
-        }
-
         .features {
-            padding: 6rem 1rem;
-            background: var(--surface);
-        }
-
-        .section-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
+            padding: 4rem 2rem;
         }
 
         .section-title {
+            text-align: center;
             font-size: 2.5rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .section-subtitle {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
+            margin-bottom: 3rem;
+            color: var(--text);
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .feature-card {
             background: var(--surface);
             padding: 2rem;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.2s;
         }
 
         .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-light);
+            transform: translateY(-5px);
         }
 
-        .feature-icon {
-            color: var(--primary);
+        .feature-card i {
             font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
         }
 
         .feature-card h3 {
-            font-size: 1.25rem;
             margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-weight: 600;
+            color: var(--text);
         }
 
         .feature-card p {
             color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .stats {
-            padding: 6rem 1rem;
-            background: var(--background);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat-item h4 {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .stat-item p {
-            color: var(--text-secondary);
-            font-weight: 500;
         }
 
         .testimonials {
-            padding: 6rem 1rem;
+            padding: 4rem 2rem;
             background: var(--surface);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .testimonial-card {
-            background: var(--surface);
             padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border);
-            height: 100%;
-        }
-
-        .testimonial-content {
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            font-size: 1.125rem;
-            line-height: 1.7;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            background: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 1.125rem;
-        }
-
-        .author-info h4 {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .author-info p {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            background: var(--background);
         }
 
         footer {
-            background: var(--surface);
-            padding: 2rem 1rem;
+            background: var(--text);
+            color: white;
+            padding: 4rem 2rem;
             text-align: center;
-            border-top: 1px solid var(--border);
-        }
-
-        footer p {
-            color: var(--text-tertiary);
         }
 
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
+            .header {
                 padding: 1rem;
             }
 
-            nav {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            nav a {
-                width: 100%;
-                text-align: center;
+            .nav-links {
+                display: none;
             }
 
             .hero {
-                padding: 7rem 1rem 5rem;
+                padding: 6rem 1rem 3rem;
             }
 
             .hero h1 {
@@ -378,141 +209,68 @@
                 font-size: 1.125rem;
             }
 
-            .search-container {
-                margin-top: -1rem;
-            }
-
             .section-title {
                 font-size: 2rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <a href="#" class="logo">
-                <span class="material-icons-round">medical_services</span>
-                MediZen
-            </a>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-                <a href="chat.html" class="cta">Try MediZen</a>
-            </nav>
-        </div>
+    <header class="header">
+        <a href="/" class="logo">
+            <i class="material-icons">medical_services</i>
+            MediZen
+        </a>
+        <nav class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="/chat.html" class="cta-button">Try MediZen</a>
+        </nav>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Your AI-Powered Medical Assistant</h1>
-            <p>Experience the future of healthcare with advanced AI technology that provides instant medical insights and professional guidance.</p>
-            <a href="chat.html" class="cta-button">
-                <span class="material-icons-round">smart_toy</span>
-                Start Free Consultation
-            </a>
+            <h1>Your AI Medical Assistant</h1>
+            <p>Get instant medical advice and support, powered by advanced artificial intelligence</p>
+            <a href="/chat.html" class="cta-button">Start Free Consultation</a>
         </div>
     </section>
-
-    <div class="search-container">
-        <div class="search-bar">
-            <span class="material-icons-round">search</span>
-            <input type="text" placeholder="Search medical conditions, symptoms, or ask a question...">
-            <span class="material-icons-round">mic</span>
-        </div>
-    </div>
 
     <section class="features" id="features">
-        <div class="section-container">
-            <div class="section-header">
-                <h2 class="section-title">Why Choose MediZen</h2>
-                <p class="section-subtitle">Discover how our AI-powered platform revolutionizes healthcare with cutting-edge technology.</p>
+        <h2 class="section-title">Why Choose MediZen</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="material-icons">psychology</i>
+                <h3>AI Diagnostics</h3>
+                <p>Advanced algorithms provide quick and accurate medical insights</p>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="material-icons-round feature-icon">psychology</span>
-                    <h3>AI Diagnostics</h3>
-                    <p>Advanced algorithms provide quick and accurate medical insights based on symptoms and medical history.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="material-icons-round feature-icon">security</span>
-                    <h3>Secure & Private</h3>
-                    <p>Your health information is protected with enterprise-grade security and encryption standards.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="material-icons-round feature-icon">schedule</span>
-                    <h3>24/7 Availability</h3>
-                    <p>Get instant medical guidance anytime, anywhere with our always-available AI assistant.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="material-icons-round feature-icon">analytics</span>
-                    <h3>Smart Analytics</h3>
-                    <p>Comprehensive health analytics and personalized insights for better healthcare decisions.</p>
-                </div>
+            <div class="feature-card">
+                <i class="material-icons">security</i>
+                <h3>Secure & Private</h3>
+                <p>Your health information is protected with enterprise-grade security</p>
+            </div>
+            <div class="feature-card">
+                <i class="material-icons">schedule</i>
+                <h3>24/7 Availability</h3>
+                <p>Get instant medical guidance anytime, anywhere</p>
             </div>
         </div>
     </section>
 
-    <section class="stats">
-        <div class="section-container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h4>10K+</h4>
-                    <p>Active Users</p>
-                </div>
-                <div class="stat-item">
-                    <h4>98%</h4>
-                    <p>Accuracy Rate</p>
-                </div>
-                <div class="stat-item">
-                    <h4>24/7</h4>
-                    <p>Availability</p>
-                </div>
-                <div class="stat-item">
-                    <h4>100+</h4>
-                    <p>Medical Specialties</p>
-                </div>
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title">What Our Users Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>"MediZen has revolutionized how I provide care to my patients. The AI insights are incredibly accurate."</p>
+                <cite>- Dr. Rachel Smith, Cardiologist</cite>
             </div>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="section-container">
-            <div class="section-header">
-                <h2 class="section-title">What Our Users Say</h2>
-                <p class="section-subtitle">Read about how MediZen is helping healthcare professionals worldwide.</p>
+            <div class="testimonial-card">
+                <p>"The platform's 24/7 availability and quick responses have greatly improved our emergency response times."</p>
+                <cite>- Dr. John Davis, Emergency Medicine</cite>
             </div>
-            <div class="features-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-content">"MediZen has revolutionized how I provide care to my patients. The AI insights are incredibly accurate and helpful."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">DR</div>
-                        <div class="author-info">
-                            <h4>Dr. Rachel Smith</h4>
-                            <p>Cardiologist</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-content">"The platform's 24/7 availability and quick responses have greatly improved our emergency response times."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">JD</div>
-                        <div class="author-info">
-                            <h4>Dr. John Davis</h4>
-                            <p>Emergency Medicine</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="testimonial-card">
+                <p>"As a patient, having instant access to reliable medical advice has been life-changing."</p>
+                <cite>- Sarah Johnson</cite>
             </div>
         </div>
     </section>
