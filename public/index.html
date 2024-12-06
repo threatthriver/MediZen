@@ -90,102 +90,109 @@
         }
 
         .hero {
-            padding: 8rem 2rem 4rem;
-            text-align: center;
-            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            background: linear-gradient(135deg, #4285f4, #34a853);
             color: white;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            animation: fadeIn 2s ease-out;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: slideInFromLeft 1s ease-out;
         }
 
         .hero p {
             font-size: 1.25rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            animation: slideInFromRight 1s ease-out;
+        }
+
+        .hero .cta {
+            background: white;
+            color: #4285f4;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .hero .cta:hover {
+            background: #f1f3f4;
+            color: #202124;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInFromLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .features {
-            padding: 4rem 2rem;
+            display: flex;
+            justify-content: space-around;
+            padding: 2rem 0;
         }
 
-        .section-title {
+        .feature {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--text);
+            padding: 1rem;
+            transition: transform 0.3s;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: transform 0.2s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-card i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
+        .feature:hover {
+            transform: translateY(-10px);
         }
 
         .testimonials {
-            padding: 4rem 2rem;
-            background: var(--surface);
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .testimonial-card {
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: var(--shadow);
-            background: var(--background);
-        }
-
-        footer {
-            background: var(--text);
-            color: white;
-            padding: 4rem 2rem;
+            background: #f1f3f4;
+            padding: 3rem 2rem;
             text-align: center;
+            position: relative;
+        }
+
+        .testimonial {
+            display: none;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .testimonial.active {
+            display: block;
+        }
+
+        .testimonial-nav {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .testimonial-nav button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #4285f4;
+            transition: color 0.3s;
+        }
+
+        .testimonial-nav button:hover {
+            color: #34a853;
         }
 
         @media (max-width: 768px) {
@@ -229,48 +236,51 @@
     </header>
 
     <section class="hero">
-        <div class="hero-content">
-            <h1>Your AI Medical Assistant</h1>
-            <p>Get instant medical advice and support, powered by advanced artificial intelligence</p>
-            <a href="/chat.html" class="cta-button">Start Free Consultation</a>
-        </div>
+        <h1>Welcome to MediZen</h1>
+        <p>Your AI-powered medical assistant</p>
+        <a href="/chat.html" class="cta">Get Started</a>
     </section>
 
     <section class="features" id="features">
         <h2 class="section-title">Why Choose MediZen</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="material-icons">psychology</i>
-                <h3>AI Diagnostics</h3>
-                <p>Advanced algorithms provide quick and accurate medical insights</p>
+        <div class="features">
+            <div class="feature">
+                <i class="material-icons" style="font-size: 3rem;">health_and_safety</i>
+                <h3>24/7 Support</h3>
+                <p>Access medical assistance anytime, anywhere.</p>
             </div>
-            <div class="feature-card">
-                <i class="material-icons">security</i>
+            <div class="feature">
+                <i class="material-icons" style="font-size: 3rem;">insights</i>
+                <h3>AI Insights</h3>
+                <p>Get personalized insights and health tips.</p>
+            </div>
+            <div class="feature">
+                <i class="material-icons" style="font-size: 3rem;">verified_user</i>
                 <h3>Secure & Private</h3>
-                <p>Your health information is protected with enterprise-grade security</p>
-            </div>
-            <div class="feature-card">
-                <i class="material-icons">schedule</i>
-                <h3>24/7 Availability</h3>
-                <p>Get instant medical guidance anytime, anywhere</p>
+                <p>Your data is safe with us.</p>
             </div>
         </div>
     </section>
 
     <section class="testimonials" id="testimonials">
         <h2 class="section-title">What Our Users Say</h2>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <p>"MediZen has revolutionized how I provide care to my patients. The AI insights are incredibly accurate."</p>
-                <cite>- Dr. Rachel Smith, Cardiologist</cite>
+        <div class="testimonials">
+            <div class="testimonial active">
+                <p>"MediZen has transformed how I manage my health!"</p>
+                <p>- Alex J.</p>
             </div>
-            <div class="testimonial-card">
-                <p>"The platform's 24/7 availability and quick responses have greatly improved our emergency response times."</p>
-                <cite>- Dr. John Davis, Emergency Medicine</cite>
+            <div class="testimonial">
+                <p>"A game-changer for medical consultations."</p>
+                <p>- Jamie L.</p>
             </div>
-            <div class="testimonial-card">
-                <p>"As a patient, having instant access to reliable medical advice has been life-changing."</p>
-                <cite>- Sarah Johnson</cite>
+            <div class="testimonial">
+                <p>"Reliable, fast, and easy to use."</p>
+                <p>- Casey M.</p>
+            </div>
+
+            <div class="testimonial-nav">
+                <button onclick="prevTestimonial()">&#10094;</button>
+                <button onclick="nextTestimonial()">&#10095;</button>
             </div>
         </div>
     </section>
@@ -278,5 +288,28 @@
     <footer>
         <p>&copy; 2023 MediZen. All rights reserved.</p>
     </footer>
+
+    <script>
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+
+        function showTestimonial(index) {
+            testimonials.forEach((testimonial, i) => {
+                testimonial.classList.toggle('active', i === index);
+            });
+        }
+
+        function prevTestimonial() {
+            currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }
+
+        function nextTestimonial() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }
+
+        setInterval(nextTestimonial, 5000); // Auto-change every 5 seconds
+    </script>
 </body>
 </html>
